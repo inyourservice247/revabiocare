@@ -73,3 +73,28 @@ Do not spend time perfecting copy before the application architecture and enquir
 Do not fabricate company facts, certifications, products, regulatory claims, statistics, testimonials, or manufacturing capabilities.
 
 Use /docs/MASTER-SPEC.md as the source of truth for website architecture and design direction.
+
+## Environment Variables
+
+The following environment variables are already configured in Vercel:
+
+- `DATABASE_URL`
+  - Neon PostgreSQL connection.
+  - Already configured.
+  - Do not hardcode or request its value.
+
+- `ADMIN_USERNAME`
+  - Username/ID for the private `/admin` area.
+  - Already configured.
+  - Read server-side only.
+
+- `ADMIN_PASSWORD`
+  - Password for the private `/admin` area.
+  - Already configured.
+  - Read server-side only.
+  - Never expose to client-side JavaScript.
+
+- `RESEND_API_KEY`
+  - Already configured.
+  - Email notification functionality is deferred until the Reva Biocare sending domain can be verified.
+  - Do not prioritize Resend during the initial functional build.
