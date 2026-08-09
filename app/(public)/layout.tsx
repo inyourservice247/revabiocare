@@ -1,0 +1,3 @@
+import Link from 'next/link';
+const links=[['About','/about'],['Products','/products'],['Services','/services'],['Quality & Compliance','/quality-compliance'],['Contact','/contact']];
+export default function PublicLayout({children}:{children:React.ReactNode}){return <><header className="header"><div className="shell bar"><Link href="/" className="brand">REVA BIOCARE</Link><nav className="nav">{links.map(([n,h])=><Link key={h} href={h}>{n}</Link>)}</nav><Link className="button" href="/contact">Send a Requirement</Link></div></header>{children}<footer className="footer"><div className="shell">Reva Biocare · <a href="mailto:mail@revabiocare.com">mail@revabiocare.com</a> · <Link href="/privacy">Privacy</Link></div></footer></>}

@@ -1,0 +1,1 @@
+import type{MetadataRoute}from'next';export default function sitemap():MetadataRoute.Sitemap{return ['/','/about','/products','/services','/quality-compliance','/contact','/privacy'].map(url=>({url}))}
