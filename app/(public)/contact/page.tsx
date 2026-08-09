@@ -41,7 +41,8 @@ export default function Contact() {
       if (!response.ok) throw new Error('Submission failed');
       sent[hash] = Date.now();
       sessionStorage.setItem(submittedKey, JSON.stringify(sent));
-      form.reset();
+      const requirement = form.elements.namedItem('requirement') as HTMLTextAreaElement;
+      requirement.value = '';
       setCooldown(3);
       setStatus('success');
     } catch {
