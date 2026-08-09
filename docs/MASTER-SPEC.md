@@ -1098,6 +1098,7 @@ NEXT_PUBLIC_VAPID_PUBLIC_KEY=
 VAPID_PRIVATE_KEY=
 VAPID_SUBJECT=
 NEXT_PUBLIC_SITE_URL=
+
 ```
 
 Neon Auth may require additional variables according to its current official integration. Codex should add variable **names** to `.env.example` and tell the user what to configure, without committing secret values.
