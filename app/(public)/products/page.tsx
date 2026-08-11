@@ -1,1 +1,74 @@
-'use client';import{useMemo,useState}from'react';import Link from'next/link';import{products}from'@/data/demo-content';export default function Products(){const[q,setQ]=useState(''),[cat,setCat]=useState('All');const cats=['All',...new Set(products.map(x=>x.category))],rows=useMemo(()=>products.filter(x=>(cat==='All'||x.category===cat)&&x.name.toLowerCase().includes(q.toLowerCase())),[q,cat]);return <main className="page"><div className="shell"><p className="eyebrow">PRODUCTS</p><h1>Find the product. Start the conversation.</h1><p className="lede">Search the prototype catalogue by name or category.</p><input className="catalogue-search" value={q} onChange={e=>setQ(e.target.value)} placeholder="Search sample products"/><p className="filters">{cats.map(x=><button key={x} onClick={()=>setCat(x)}>{x}</button>)}</p><p>{rows.length} sample product records</p><div className="grid">{rows.map(x=><article className="card" key={x.name}><p className="eyebrow">{x.category}</p><h3>{x.name}</h3>{x.cas&&<p>CAS: {x.cas}</p>}<p>{x.description}</p><Link href={'/contact?requirement='+encodeURIComponent(x.name)}>Send Requirement →</Link></article>)}</div>{!rows.length&&<p>No sample products match that search.</p>}</div></main>}
+'use client';
+
+import Link from 'next/link';
+import { useMemo, useState } from 'react';
+import { products } from '@/data/demo-content';
+
+export default function Products() {
+  const [query, setQuery] = useState('');
+  const [category, setCategory] = useState('All');
+  const categories = ['All', ...new Set(products.map((product) => product.category))];
+  const rows = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    return products.filter((product) => {
+      const inCategory = category === 'All' || product.category === category;
+      const searchable = [product.name, product.category, product.cas, ...(product.grades || [])].filter(Boolean).join(' ').toLowerCase();
+      return inCategory && (!normalizedQuery || searchable.includes(normalizedQuery));
+    });
+  }, [query, category]);
+
+  const clearFilters = () => {
+    setQuery('');
+    setCategory('All');
+  };
+
+  return (
+    <main className="page catalogue-page">
+      <div className="shell">
+        <p className="eyebrow">PRODUCTS</p>
+        <h1>Find the product. Start the conversation.</h1>
+        <p className="lede">Search the prototype catalogue by name or category.</p>
+        <div className="catalogue-controls">
+          <label className="catalogue-search-label" htmlFor="catalogue-search">Search products</label>
+          <input id="catalogue-search" className="catalogue-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search sample products" />
+          <div className="filters" aria-label="Product categories">
+            {categories.map((item) => {
+              const selected = item === category;
+              return (
+                <button key={item} className={selected ? 'filter-active' : undefined} aria-pressed={selected} onClick={() => setCategory(item)}>
+                  {item}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <p className="result-count" role="status" aria-live="polite" aria-atomic="true">
+          {rows.length} {rows.length === 1 ? 'product' : 'products'}
+        </p>
+        {rows.length > 0 ? (
+          <div className="catalogue-grid" data-result-count={Math.min(rows.length, 3)}>
+            {rows.map((product) => (
+              <article className="card product-card" key={product.name}>
+                <p className="eyebrow">{product.category}</p>
+                <h3>{product.name}</h3>
+                {(product.cas || product.grades?.length) && (
+                  <dl className="product-meta">
+                    {product.cas && <><dt>CAS</dt><dd>{product.cas}</dd></>}
+                    {product.grades?.length && <><dt>Grades</dt><dd>{product.grades.join(', ')}</dd></>}
+                  </dl>
+                )}
+                <p className="product-description">{product.description}</p>
+                <Link className="product-action" href={`/contact?requirement=${encodeURIComponent(product.name)}`}>Send Requirement →</Link>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="no-results" role="status">
+            <h2>No products match your search.</h2>
+            <button className="button" onClick={clearFilters}>Clear filters</button>
+          </div>
+        )}
+      </div>
+    </main>
+  );
+}

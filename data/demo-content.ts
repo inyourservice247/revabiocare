@@ -1,5 +1,10 @@
 /** DEMO / PROTOTYPE CONTENT — NOT VERIFIED REVA BIOCARE BUSINESS DATA — REPLACE BEFORE FINAL PRODUCTION */
-type Product={name:string;category:string;cas:string|null;description:string};
+type Product={name:string;category:string;cas:string|null;grades?:string[];documentation?:string[];description:string};
 const records:[string,string,string|null][]=[['Sample Active Alpha','API','12345-67-8 [DEMO]'],['Sample Active Beta Hydrochloride','API','23456-78-9 [DEMO]'],['Sample Active Ingredient With Extended Multi-Word Commercial Name','API',null],['Sample Intermediate Gamma','Pharmaceutical Intermediate','34567-89-0 [DEMO]'],['Sample Excipient Delta','Excipient','45678-90-1 [DEMO]'],['Sample Nutraceutical Epsilon','Nutraceutical Ingredient',null],['Sample Active Zeta Sodium','API','56789-01-2 [DEMO]'],['Sample Active Eta Monohydrate','API','67890-12-3 [DEMO]'],['Sample Intermediate Theta','Pharmaceutical Intermediate',null],['Sample Excipient Iota','Excipient','78901-23-4 [DEMO]'],['Sample Active Kappa','API','89012-34-5 [DEMO]'],['Sample Long-Form Ingredient Name for Responsive Pharmaceutical Catalogue Testing','API','90123-45-6 [DEMO]']];
-export const products:Product[]=records.map(([name,category,cas])=>({name,category,cas,description:'Fictional prototype record for catalogue layout testing.'}));
+const demoGrades:Record<string,string[]>={
+  'Sample Active Alpha':['Prototype Grade A','Prototype Grade B'],
+  'Sample Intermediate Gamma':['Prototype Intermediate Grade'],
+  'Sample Excipient Delta':['Prototype Compendial Grade'],
+};
+export const products:Product[]=records.map(([name,category,cas])=>({name,category,cas,grades:demoGrades[name],description:'Fictional prototype record for catalogue layout testing.'}));
 export const services=['Pharmaceutical Sourcing','API Supply & Distribution','Import Coordination','Export Coordination','Indenting','Supplier Identification','Documentation Support','Supply & Logistics Coordination','Custom Requirement Sourcing'];
