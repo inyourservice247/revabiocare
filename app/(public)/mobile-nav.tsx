@@ -9,15 +9,23 @@ function Navigation({ links }: { links: string[][] }) {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const navRef = useRef<HTMLElement>(null);
+  const returnFocusRef = useRef(false);
 
   const closeMenu = (returnFocus = true) => {
+    returnFocusRef.current = returnFocus;
     setOpen(false);
-    if (returnFocus) window.requestAnimationFrame(() => buttonRef.current?.focus());
   };
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (!open && returnFocusRef.current) {
+      returnFocusRef.current = false;
+      buttonRef.current?.focus();
+    }
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
