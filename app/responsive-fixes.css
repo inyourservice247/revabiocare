@@ -19,8 +19,12 @@
 .footer a:hover{color:var(--white)}
 .footer nav{align-items:center;gap:4px 14px}
 :where(a,button,input,textarea,select):focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.hero{padding:clamp(80px,8vw,120px) 0 clamp(72px,7vw,104px)}
+.hero h1{max-width:1080px;font-size:clamp(4rem,5.1vw,5rem);line-height:1.02}
+.page h1,.page-hero h1{max-width:900px;font-size:clamp(3rem,4.2vw,4rem);line-height:1.04}
+h2{font-size:clamp(2.25rem,3.2vw,3.25rem);line-height:1.08}
 .contact-page{padding:40px 0 48px}
-.contact-page h1{font-size:clamp(3rem,5vw,4.25rem)}
+.contact-page h1{font-size:clamp(3rem,4.2vw,4rem)}
 .contact-page .lede{margin-top:12px;font-size:16px}
 .contact-form{margin-top:22px;gap:10px}
 .form-field{display:grid;gap:3px}
@@ -73,6 +77,9 @@
   .header-cta{display:none}
   .menu-backdrop{display:block;position:absolute;z-index:1;top:100%;left:0;right:0;height:calc(100dvh - var(--mobile-menu-top,72px));background:rgba(18,51,51,.68);backdrop-filter:blur(3px)}
 
+  .page h1,.page-hero h1{font-size:clamp(2rem,8.5vw,2.65rem);line-height:1.04}
+  h2{font-size:clamp(2.1rem,8vw,2.5rem)}
+
   .contact-page{padding:18px 0 28px}
   .contact-page h1{font-size:clamp(2rem,9vw,2.45rem);line-height:1;text-transform:uppercase}
   .contact-page .lede{margin-top:8px;font-size:14px;line-height:1.4}
@@ -92,7 +99,7 @@
   .service-list article:last-child:nth-child(odd){grid-column:auto;width:100%}
 
   .hero{padding:72px 0 62px}
-  .hero h1{font-size:clamp(2.75rem,12vw,4.05rem);line-height:1}
+  .hero h1{font-size:clamp(2.75rem,11vw,4.05rem);line-height:1}
   .hero .lede{margin-top:16px;font-size:15px;line-height:1.5}
   .hero-actions{flex-wrap:nowrap;gap:10px;margin-top:24px}
   .hero-actions .button{flex:1;min-height:46px;padding:10px 12px}
