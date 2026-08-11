@@ -1,8 +1,24 @@
 .mobile-nav-cta{display:none}
+.button{color:var(--teal);font-size:12px;letter-spacing:.09em}
+.button:hover,.button:focus-visible{background:var(--teal);border-color:var(--teal);color:var(--white)}
+.button:disabled{opacity:.72}
+.button:disabled:hover{background:var(--gold);border-color:var(--gold);color:var(--teal)}
+.button-secondary{color:var(--white)}
+.button-secondary:hover,.button-secondary:focus-visible{background:var(--white);border-color:var(--white);color:var(--teal)}
+.brand{display:inline-flex;flex:0 0 auto;align-items:center;min-height:44px;white-space:nowrap}
+.nav{gap:clamp(16px,2vw,27px);font-size:13px;letter-spacing:.07em}
+.nav a{display:inline-flex;align-items:center;min-height:44px;white-space:nowrap}
+.nav .mobile-nav-cta{display:none}
 .nav a.active{color:var(--gold)}
 .nav a.active:not(.mobile-nav-cta){box-shadow:inset 0 -1px 0 var(--gold)}
-.header-cta.active{background:var(--teal);border-color:var(--teal)}
+.header-cta.active{background:var(--teal);border-color:var(--teal);color:var(--white)}
+.header-cta{flex:0 0 auto;white-space:nowrap}
 .menu-backdrop{display:none}
+.footer{font-size:14px;line-height:1.6}
+.footer a{display:inline-flex;align-items:center;min-height:44px;padding:2px}
+.footer a:hover{color:var(--white)}
+.footer nav{align-items:center;gap:4px 14px}
+:where(a,button,input,textarea,select):focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .contact-page{padding:40px 0 48px}
 .contact-page h1{font-size:clamp(3rem,5vw,4.25rem)}
 .contact-page .lede{margin-top:12px;font-size:16px}
@@ -21,7 +37,7 @@
 .catalogue-search-label{display:block;color:var(--teal);font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase}
 .catalogue-search{min-height:46px;margin:6px 0 14px}
 .filters{display:flex;flex-wrap:wrap;gap:8px;margin:0}
-.filters button{position:relative;min-height:44px;padding:9px 13px;font:600 11px/1.2 var(--sans);letter-spacing:.04em;cursor:pointer}
+.filters button{position:relative;min-height:44px;padding:9px 13px;font:600 12px/1.2 var(--sans);letter-spacing:.04em;cursor:pointer}
 .filters button.filter-active{padding-left:30px;background:var(--teal);border-color:var(--teal);color:var(--white)}
 .filters button.filter-active:before{content:'✓';position:absolute;left:12px;font-weight:700}
 .filters button:focus-visible,.catalogue-search:focus-visible,.product-action:focus-visible,.no-results .button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
@@ -35,7 +51,7 @@
 .product-meta dt{color:var(--teal);font-weight:600}
 .product-meta dd{margin:0;overflow-wrap:anywhere}
 .product-description{margin:18px 0 22px!important}
-.product-action{margin-top:auto;color:var(--teal);font-weight:600}
+.product-action{display:inline-flex;align-items:center;min-height:44px;margin-top:auto;color:var(--teal);font-weight:600}
 .no-results{max-width:620px;padding:34px;border:1px solid var(--line);background:var(--ivory)}
 .no-results h2{margin-bottom:22px;font-size:clamp(1.7rem,3vw,2.4rem)}
 .service-list article:last-child:nth-child(odd){grid-column:1/-1;width:calc(50% - .5px);justify-self:center}
@@ -48,10 +64,10 @@
   .mobile-toggle{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:0 6px;cursor:pointer}
   .nav{position:absolute;z-index:2;top:100%;padding:16px 18px 20px;gap:0;box-shadow:0 18px 36px color-mix(in srgb,var(--teal) 18%,transparent)}
   .nav.open{display:flex}
-  .nav a{width:100%;padding:12px 2px;border-bottom:1px solid var(--line)}
+  .nav a{width:100%;min-height:44px;padding:12px 2px;border-bottom:1px solid var(--line)}
   .nav a.active:not(.mobile-nav-cta){box-shadow:none;color:var(--gold)}
-  .mobile-nav-cta{display:block;margin-top:10px;padding:13px 14px!important;border:1px solid var(--gold)!important;background:color-mix(in srgb,var(--gold) 14%,var(--white));color:var(--teal)!important}
-  .mobile-nav-cta.active{background:var(--gold);color:var(--white)!important}
+  .nav .mobile-nav-cta{display:block;margin-top:10px;padding:13px 14px!important;border:1px solid var(--gold)!important;background:color-mix(in srgb,var(--gold) 14%,var(--white));color:var(--teal)!important}
+  .mobile-nav-cta.active{background:var(--gold);color:var(--teal)!important}
   .header-cta{display:none}
   .menu-backdrop{display:block;position:absolute;z-index:1;top:100%;left:0;right:0;height:calc(100dvh - var(--mobile-menu-top,72px));background:rgba(18,51,51,.68);backdrop-filter:blur(3px)}
 
