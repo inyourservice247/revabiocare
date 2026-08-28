@@ -16,6 +16,12 @@ const unauthorized = async () => {
   if (!await hasSession()) throw new Error('Unauthorized');
 };
 
+function revalidateProductViews() {
+  revalidatePath('/admin/products');
+  revalidatePath('/products');
+  revalidatePath('/');
+}
+
 function errorState(error: unknown): ProductActionState {
   if (error instanceof ZodError) return { message: 'Unable to save product.', errors: error.flatten().fieldErrors as Record<string, string[]> };
   if (error && typeof error === 'object' && 'code' in error && error.code === '23505') {
@@ -32,7 +38,7 @@ export async function createProductAction(_state: ProductActionState, formData: 
   } catch (error) {
     return errorState(error);
   }
-  revalidatePath('/admin/products');
+  revalidateProductViews();
   redirect('/admin/products?status=saved');
 }
 
@@ -44,7 +50,7 @@ export async function updateProductAction(id: string, _state: ProductActionState
   } catch (error) {
     return errorState(error);
   }
-  revalidatePath('/admin/products');
+  revalidateProductViews();
   redirect('/admin/products?status=saved');
 }
 
@@ -53,7 +59,7 @@ export async function deleteProductAction(id: string): Promise<{ ok: boolean; me
   try {
     const deleted = await deleteProduct(id);
     if (!deleted) return { ok: false, message: 'Unable to delete product.' };
-    revalidatePath('/admin/products');
+    revalidateProductViews();
     return { ok: true, message: 'Product deleted.' };
   } catch (error) {
     console.error('Product delete failed', error instanceof Error ? error.message : 'Unknown error');
