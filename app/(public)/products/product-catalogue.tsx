@@ -37,10 +37,10 @@ export default function ProductCatalogue({ products, categories }: { products: P
       <div className="shell">
         <p className="eyebrow">PRODUCTS</p>
         <h1>Find the product. Start the conversation.</h1>
-        <p className="lede">Search the prototype catalogue by name or category.</p>
+        <p className="lede">Search the product catalogue by name or category.</p>
         <div className="catalogue-controls">
           <label className="catalogue-search-label" htmlFor="catalogue-search">Search products</label>
-          <input id="catalogue-search" className="catalogue-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search sample products" />
+          <input id="catalogue-search" className="catalogue-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search products" />
           <div className="filters" aria-label="Product categories">
             {[{ id: 'All', name: 'All', slug: 'all' }, ...categories].map((item) => {
               const selected = item.id === category;
