@@ -1,8 +1,16 @@
+import type { Metadata } from 'next';
 import { getActiveProducts } from '@/lib/server/products';
 import ProductCatalogue from './product-catalogue';
 import { getActiveCategories } from '@/lib/server/categories';
+import { publicMetadata } from '@/lib/site';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = publicMetadata({
+  title: 'Products',
+  description: 'Browse the Reva Biocare catalogue and send a pharmaceutical product requirement.',
+  path: '/products',
+});
 
 export default async function ProductsPage() {
   const [productRows, categories] = await Promise.all([getActiveProducts(), getActiveCategories()]);

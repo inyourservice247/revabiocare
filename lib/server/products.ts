@@ -50,6 +50,11 @@ export async function getActiveProducts(): Promise<ProductRecord[]> {
   return await sql.query(`SELECT ${productColumns} ${productJoins} WHERE p.active = true GROUP BY p.id ORDER BY p.sort_order ASC, p.name ASC`) as ProductRecord[];
 }
 
+export async function getActiveProductSitemapEntries(): Promise<Array<{ slug: string; updated_at: Date }>> {
+  const sql = db();
+  return await sql.query('SELECT slug, updated_at FROM products WHERE active = true ORDER BY slug ASC') as Array<{ slug: string; updated_at: Date }>;
+}
+
 export async function getFeaturedActiveProducts(): Promise<ProductRecord[]> {
   const sql = db();
   return await sql.query(`SELECT ${productColumns} ${productJoins} WHERE p.active = true AND p.featured = true GROUP BY p.id ORDER BY p.sort_order ASC, p.name ASC`) as ProductRecord[];

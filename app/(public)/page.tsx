@@ -1,8 +1,17 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { services } from '@/data/demo-content';
 import { getFeaturedActiveProducts } from '@/lib/server/products';
+import { publicMetadata } from '@/lib/site';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = publicMetadata({
+  title: 'Reva Biocare',
+  description: 'B2B pharmaceutical product enquiries, sourcing discussions and documentation coordination.',
+  path: '/',
+  absoluteTitle: true,
+});
 
 const snapshot = ['Product-led enquiries', 'Documentation coordination', 'Commercial responsiveness', 'Requirement-based sourcing'];
 

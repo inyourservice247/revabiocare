@@ -1,12 +1,31 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { cache } from 'react';
 import { getActiveProductBySlug } from '@/lib/server/products';
+import { absoluteUrl, productDescription, publicMetadata } from '@/lib/site';
 
 export const dynamic = 'force-dynamic';
 
-export default async function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+const getProduct = cache(getActiveProductBySlug);
+type ProductPageProps = { params: Promise<{ slug: string }> };
+
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const product = await getActiveProductBySlug(slug);
+  const product = await getProduct(slug);
+  if (!product) return { robots: { index: false, follow: false } };
+  const categories = product.categories.filter((category) => category.active).map((category) => category.name);
+  return publicMetadata({
+    title: `${product.name} | Reva Biocare`,
+    description: productDescription(product.name, categories),
+    path: `/products/${product.slug}`,
+    absoluteTitle: true,
+  });
+}
+
+export default async function ProductDetailPage({ params }: ProductPageProps) {
+  const { slug } = await params;
+  const product = await getProduct(slug);
   if (!product) notFound();
 
   const categories = product.categories.filter((category) => category.active);
@@ -14,9 +33,18 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   const applications = product.applications.filter(Boolean);
   const documentation = product.documentation.filter(Boolean);
   const enquiryHref = `/contact?requirement=${encodeURIComponent(product.name)}`;
+  const breadcrumbStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Products', item: absoluteUrl('/products') },
+      { '@type': 'ListItem', position: 2, name: product.name, item: absoluteUrl(`/products/${product.slug}`) },
+    ],
+  };
 
   return (
     <main className="product-detail-page">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData).replace(/</g, '\\u003c') }} />
       <section className="product-detail-hero">
         <div className="shell">
           <nav className="breadcrumb" aria-label="Breadcrumb">
