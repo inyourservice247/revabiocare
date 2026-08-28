@@ -2,6 +2,7 @@
 
 import { useActionState, useState } from 'react';
 import type { ProductRecord } from '@/lib/server/products';
+import type { CategoryRecord } from '@/lib/server/categories';
 import type { ProductActionState } from './actions';
 
 type Action = (state: ProductActionState, formData: FormData) => Promise<ProductActionState>;
@@ -24,7 +25,7 @@ function RepeatingFields({ label, name, initial }: { label: string; name: string
   );
 }
 
-export default function ProductForm({ action, product }: { action: Action; product?: ProductRecord }) {
+export default function ProductForm({ action, product, categories }: { action: Action; product?: ProductRecord; categories: CategoryRecord[] }) {
   const [state, formAction, pending] = useActionState(action, initialState);
   const [slug, setSlug] = useState(product?.slug ?? '');
   const [slugEdited, setSlugEdited] = useState(Boolean(product));
@@ -42,11 +43,13 @@ export default function ProductForm({ action, product }: { action: Action; produ
         <input id="product-slug" name="slug" required maxLength={200} value={slug} aria-invalid={Boolean(error('slug'))} onChange={(event) => { setSlugEdited(true); setSlug(event.target.value); }} />
         {error('slug') ? <p className="admin-field-error">{error('slug')}</p> : null}
       </div>
-      <div className="admin-field">
-        <label htmlFor="product-category">Category *</label>
-        <input id="product-category" name="category" required maxLength={120} defaultValue={product?.category ?? ''} aria-invalid={Boolean(error('category'))} />
-        {error('category') ? <p className="admin-field-error">{error('category')}</p> : null}
-      </div>
+      <fieldset className="admin-repeat admin-field-wide">
+        <legend>Categories *</legend>
+        <div className="admin-category-options">
+          {categories.filter((category) => category.active || product?.categories.some((assigned) => assigned.id === category.id)).map((category) => <label key={category.id}><input type="checkbox" name="category_ids" value={category.id} defaultChecked={product?.categories.some((assigned) => assigned.id === category.id)} /> {category.name}{!category.active ? ' (Inactive)' : ''}</label>)}
+        </div>
+        {error('category_ids') ? <p className="admin-field-error">{error('category_ids')}</p> : null}
+      </fieldset>
       <div className="admin-field">
         <label htmlFor="product-grade">Grade <span>(separate multiple values with commas)</span></label>
         <input id="product-grade" name="grade" defaultValue={product?.grade.join(', ') ?? ''} />

@@ -17,6 +17,7 @@ export default function AdminNav() {
       <nav aria-label="Admin navigation" className="admin-nav">
         <Link aria-current={pathname === '/admin' || pathname.startsWith('/admin/enquiries') ? 'page' : undefined} href="/admin">Enquiry Dashboard</Link>
         <Link aria-current={pathname.startsWith('/admin/products') ? 'page' : undefined} href="/admin/products">Edit Product List</Link>
+        <Link aria-current={pathname.startsWith('/admin/categories') ? 'page' : undefined} href="/admin/categories">Manage Categories</Link>
         <button type="button" onClick={logout}>Logout</button>
       </nav>
     </header>

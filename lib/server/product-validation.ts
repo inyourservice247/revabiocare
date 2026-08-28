@@ -4,7 +4,7 @@ import type { ProductInput } from '@/lib/server/products';
 export const productSchema = z.object({
   name: z.string().trim().min(1, 'Name is required.').max(200),
   slug: z.string().trim().min(1, 'Slug is required.').max(200).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Use lowercase letters, numbers, and hyphens only.'),
-  category: z.string().trim().min(1, 'Category is required.').max(120),
+  category_ids: z.array(z.string().uuid()).min(1, 'Select at least one category.').max(30),
   grade: z.array(z.string().trim().min(1).max(120)).max(30),
   cas_number: z.string().trim().max(100).nullable(),
   overview: z.string().trim().max(3000),
@@ -29,7 +29,7 @@ export function parseProductForm(formData: FormData): ProductInput {
   const result = productSchema.parse({
     name,
     slug: rawSlug || slugifyProductName(name),
-    category: String(formData.get('category') ?? ''),
+    category_ids: formData.getAll('category_ids').map(String),
     grade: String(formData.get('grade') ?? '').split(/[\n,]+/).map((value) => value.trim()).filter(Boolean),
     cas_number: String(formData.get('cas_number') ?? '').trim() || null,
     overview: String(formData.get('overview') ?? ''),

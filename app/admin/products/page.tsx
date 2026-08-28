@@ -33,7 +33,7 @@ export default async function ProductsAdminPage({ searchParams }: { searchParams
             {filtered.map((product) => (
               <tr key={product.id}>
                 <td data-label="Product Name"><strong>{product.name}</strong></td>
-                <td data-label="Category">{product.category}</td>
+                <td data-label="Category">{product.categories.map((category) => category.name).join(', ') || '—'}</td>
                 <td data-label="Grade">{product.grade.join(', ') || '—'}</td>
                 <td data-label="Active"><span className={`admin-pill ${product.active ? 'is-yes' : ''}`}>{product.active ? 'Yes' : 'No'}</span></td>
                 <td data-label="Featured"><span className={`admin-pill ${product.featured ? 'is-yes' : ''}`}>{product.featured ? 'Yes' : 'No'}</span></td>

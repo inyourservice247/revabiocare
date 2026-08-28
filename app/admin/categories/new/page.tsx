@@ -1,0 +1,2 @@
+import { redirect } from 'next/navigation'; import { hasSession } from '@/lib/server/auth'; import CategoryForm from '../category-form'; import { createCategoryAction } from '../actions';
+export default async function NewCategoryPage(){if(!await hasSession())redirect('/admin/login');return <main className="admin admin-products"><a href="/admin/categories">← Categories</a><h1>Add Category</h1><CategoryForm action={createCategoryAction}/></main>}

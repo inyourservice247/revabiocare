@@ -7,21 +7,22 @@ type PublicProduct = {
   id: string;
   name: string;
   slug: string;
-  category: string;
+  categories: Array<{ id: string; name: string; slug: string }>;
   cas: string | null;
   grades: string[];
   description: string;
 };
 
-export default function ProductCatalogue({ products }: { products: PublicProduct[] }) {
+type PublicCategory = { id: string; name: string; slug: string };
+
+export default function ProductCatalogue({ products, categories }: { products: PublicProduct[]; categories: PublicCategory[] }) {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('All');
-  const categories = ['All', ...new Set(products.map((product) => product.category))];
   const rows = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
     return products.filter((product) => {
-      const inCategory = category === 'All' || product.category === category;
-      const searchable = [product.name, product.category, product.cas, ...product.grades].filter(Boolean).join(' ').toLowerCase();
+      const inCategory = category === 'All' || product.categories.some((item) => item.id === category);
+      const searchable = [product.name, ...product.categories.map((item) => item.name), product.cas, ...product.grades].filter(Boolean).join(' ').toLowerCase();
       return inCategory && (!normalizedQuery || searchable.includes(normalizedQuery));
     });
   }, [products, query, category]);
@@ -41,9 +42,9 @@ export default function ProductCatalogue({ products }: { products: PublicProduct
           <label className="catalogue-search-label" htmlFor="catalogue-search">Search products</label>
           <input id="catalogue-search" className="catalogue-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search sample products" />
           <div className="filters" aria-label="Product categories">
-            {categories.map((item) => {
-              const selected = item === category;
-              return <button key={item} className={selected ? 'filter-active' : undefined} aria-pressed={selected} onClick={() => setCategory(item)}>{item}</button>;
+            {[{ id: 'All', name: 'All', slug: 'all' }, ...categories].map((item) => {
+              const selected = item.id === category;
+              return <button key={item.id} className={selected ? 'filter-active' : undefined} aria-pressed={selected} onClick={() => setCategory(item.id)}>{item.name}</button>;
             })}
           </div>
         </div>
@@ -52,7 +53,7 @@ export default function ProductCatalogue({ products }: { products: PublicProduct
           <div className="catalogue-grid" data-result-count={Math.min(rows.length, 3)}>
             {rows.map((product) => (
               <article className="card product-card" key={product.id} data-product-slug={product.slug}>
-                <p className="eyebrow">{product.category}</p>
+                <p className="eyebrow">{product.categories.map((item) => item.name).join(' · ')}</p>
                 <h3>{product.name}</h3>
                 {(product.cas || product.grades.length > 0) && <dl className="product-meta">{product.cas && <><dt>CAS</dt><dd>{product.cas}</dd></>}{product.grades.length > 0 && <><dt>Grades</dt><dd>{product.grades.join(', ')}</dd></>}</dl>}
                 <p className="product-description">{product.description}</p>

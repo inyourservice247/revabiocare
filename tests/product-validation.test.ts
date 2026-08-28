@@ -10,6 +10,7 @@ describe('product validation', () => {
     const form = new FormData();
     form.set('name', 'Test Product');
     form.set('category', 'API');
+    form.append('category_ids', '11111111-1111-4111-8111-111111111111');
     form.set('grade', 'USP, EP');
     form.set('sort_order', '13');
     form.set('active', 'on');
@@ -27,6 +28,6 @@ describe('product validation', () => {
   });
 
   it('rejects an invalid slug', () => {
-    expect(productSchema.safeParse({ name: 'A', slug: 'Not Valid', category: 'API', grade: [], cas_number: null, overview: '', applications: [], documentation: [], featured: false, active: true, sort_order: 0 }).success).toBe(false);
+    expect(productSchema.safeParse({ name: 'A', slug: 'Not Valid', category_ids: ['11111111-1111-4111-8111-111111111111'], grade: [], cas_number: null, overview: '', applications: [], documentation: [], featured: false, active: true, sort_order: 0 }).success).toBe(false);
   });
 });
