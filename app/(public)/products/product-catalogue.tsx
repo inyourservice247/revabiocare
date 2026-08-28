@@ -54,7 +54,7 @@ export default function ProductCatalogue({ products, categories }: { products: P
             {rows.map((product) => (
               <article className="card product-card" key={product.id} data-product-slug={product.slug}>
                 <p className="eyebrow">{product.categories.map((item) => item.name).join(' · ')}</p>
-                <h3>{product.name}</h3>
+                <h3><Link className="product-name-link" href={`/products/${product.slug}`}>{product.name}</Link></h3>
                 {(product.cas || product.grades.length > 0) && <dl className="product-meta">{product.cas && <><dt>CAS</dt><dd>{product.cas}</dd></>}{product.grades.length > 0 && <><dt>Grades</dt><dd>{product.grades.join(', ')}</dd></>}</dl>}
                 <p className="product-description">{product.description}</p>
                 <Link className="product-action" href={`/contact?requirement=${encodeURIComponent(product.name)}`}>Send Requirement →</Link>

@@ -67,6 +67,12 @@ export async function getProductBySlug(slug: string): Promise<ProductRecord | nu
   return rows[0] ?? null;
 }
 
+export async function getActiveProductBySlug(slug: string): Promise<ProductRecord | null> {
+  const sql = db();
+  const rows = await sql.query(`SELECT ${productColumns} ${productJoins} WHERE p.slug = $1 AND p.active = true GROUP BY p.id LIMIT 1`, [slug]) as ProductRecord[];
+  return rows[0] ?? null;
+}
+
 export async function createProduct(product: ProductInput): Promise<ProductRecord> {
   const sql = db();
   const categoryRows = await sql.query('SELECT name FROM categories WHERE id = ANY($1::uuid[]) ORDER BY array_position($1::uuid[], id) LIMIT 1', [product.category_ids]) as Array<{ name: string }>;
